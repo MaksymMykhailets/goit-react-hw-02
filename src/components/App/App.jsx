@@ -4,6 +4,7 @@ import Notification from '../Notification/Notification';
 import './App.module.css';
 
 import { useState, useEffect } from 'react';
+
 const App = () => {
   const [feedback] = useState(
     JSON.parse(localStorage.getItem('feedback')) || {
@@ -17,6 +18,8 @@ const App = () => {
     localStorage.setItem('feedback', JSON.stringify(feedback));
   }, [feedback]);
 
+  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+
   return (
     <>
       <h1>Sip Happens Café</h1>
@@ -24,9 +27,12 @@ const App = () => {
         Please leave your feedback about our service by selecting one of the
         options below.
       </p>
-      <Options />
-      <Feedback feedback={feedback} />
-      <Notification />
+      <Options totalFeedback={totalFeedback} />
+      {totalFeedback > 0 ? (
+        <Feedback feedback={feedback} total={totalFeedback} />
+      ) : (
+        <Notification message="No feedback given yet" />
+      )}
     </>
   );
 };
