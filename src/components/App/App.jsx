@@ -1,6 +1,7 @@
 import Options from '../Options/Options';
 import Feedback from '../Feedback/Feedback';
 import Notification from '../Notification/Notification';
+import Description from '../Description/Description ';
 import './App.module.css';
 
 import { useState, useEffect } from 'react';
@@ -18,6 +19,13 @@ const App = () => {
     localStorage.setItem('feedback', JSON.stringify(feedback));
   }, [feedback]);
 
+  const updateFeedback = feedbackType => {
+    setFeedback(prevFeedback => ({
+      ...prevFeedback,
+      [feedbackType]: prevFeedback[feedbackType] + 1,
+    }));
+  };
+
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
   const positivePercentage = totalFeedback
     ? Math.round((feedback.good / totalFeedback) * 100)
@@ -29,13 +37,12 @@ const App = () => {
 
   return (
     <>
-      <h1>Sip Happens Café</h1>
-      <p>
-        Please leave your feedback about our service by selecting one of the
-        options below.
-      </p>
+      <Description
+        title="Sip Happens Café"
+        text="Please leave your feedback about our service by selecting one of the options below."
+      />
       <Options
-        updateFeedback={setFeedback}
+        updateFeedback={updateFeedback}
         totalFeedback={totalFeedback}
         resetFeedback={resetFeedback}
       />

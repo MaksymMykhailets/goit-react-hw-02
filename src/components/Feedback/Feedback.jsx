@@ -1,5 +1,4 @@
 import css from './Feedback.module.css';
-import Notification from '../Notification/Notification';
 
 const Feedback = ({ feedback, total, positive }) => {
   return (
